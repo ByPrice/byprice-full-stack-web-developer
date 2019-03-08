@@ -1,0 +1,81 @@
+# Circle CI version
+version: 2
+
+defaults: &defaults
+  # Env vars
+  environment:
+    - GLOBIGNORE: "node_modules"
+
+  working_directory: ~/project
+
+  # Set the timezone
+  timezone: America/Mexico_City
+
+  docker:
+      - image: circleci/node:10.15
+
+## Customize the test machine
+jobs:
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Aws
+          command: sudo apt-get -y -qq install awscli
+
+      - restore_cache: # special step to restore the dependency cache
+          key: dependency-cache-{{ checksum "package.json" }}
+
+      - run:
+          name: install :/
+          command: npm install
+
+      - save_cache: # special step to save the dependency cache
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+
+      - run:
+          name: Test
+          command: |
+            npm test
+
+  # Deploy job
+  deploy:
+    <<: *defaults
+    steps:
+      - checkout
+
+      - restore_cache: # special step to restore the dependency cache
+          key: dependency-cache-{{ checksum "package.json" }}
+
+      - run:
+          name: Install webpack
+          command: sudo npm install -g webpack-cli
+
+      - run:
+          name: Build Project
+          command: npm run build
+
+      - run:
+          name: Remove public
+          command: rm -rf ./public
+
+      - run:
+          name: Upload
+          command: eval "$DEPLOY_TO_DEV" $BYPRICE_USER $CIRCLE_PR_NUMBER
+
+workflows:
+  version: 2
+
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - /ninja-.*/

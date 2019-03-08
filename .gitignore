@@ -1,6 +1,10 @@
 
 # Created by https://www.gitignore.io/api/node,osx,visualstudiocode,python,windows,linux
 
+## Ignore built files
+DEPLOY_TO_DEV.sh
+/public/js/*
+
 ### Node ###
 # Logs
 logs
