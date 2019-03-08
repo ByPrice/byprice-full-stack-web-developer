@@ -1,6 +1,7 @@
 const Koa = require('koa')
 const Router = require('koa-router')
 const render = require('koa-ejs')
+const body = require('koa-body')
 const static = require('koa-static')
 const mongoose = require('mongoose')
 const path = require('path')
@@ -9,6 +10,7 @@ const config = require('./config')
 
 /* Middlewares */
 const main = require('./server/main')
+const shortestword = require('./server/api/shortestword')
 
 const app = new Koa()
 const router = new Router()
@@ -27,6 +29,7 @@ render(app, {
 
 app.use(static('public/js'))
 app.use(static('public/css'))
+app.use(body())
 
 app.use(async function (ctx, next) {
   try {
@@ -44,6 +47,7 @@ app.use(async function (ctx, next) {
 
 router
   .get('/', main.render)
+  .post('/api/shortestword', shortestword.shortestword)
 
 app
   .use(router.routes())
