@@ -23,7 +23,18 @@
   "homepage": "https://github.com/ByPrice/byprice-full-stack-web-developer#readme",
   "dependencies": {
     "koa": "^2.7.0",
+    "koa-ejs": "^4.2.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
     "mongoose": "^5.4.17",
-    "rc": "^1.2.8"
+    "path": "^0.12.7",
+    "rc": "^1.2.8",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
+  },
+  "devDependencies": {
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.2.1"
   }
 }

@@ -1,18 +1,22 @@
 const Koa = require('koa')
-const server = new Koa()
-const router = require('koa-router')()
-const mongoose = require('mongoose')
+const Router = require('koa-router')
 const render = require('koa-ejs')
-
+const mongoose = require('mongoose')
+const path = require('path')
 const pckg = require('./package.json')
 const config = require('./config')
 
 /* Middlewares */
 const main = require('./server/main')
 
-const static = require('koa-static')
+const app = new Koa()
+const router = new Router()
 
-render(server, {
+mongoose.connect(config.mongodb)
+mongoose.connection.on('error', console.error.bind(console, `Please check your mongo connection: ${config.mongodb}`))
+mongoose.connection.once('open', console.info.bind(console, `Is it connected to mongo at: ${config.mongodb}`))
+
+render(app, {
   root: path.join(__dirname, 'server/views'),
   layout: 'template',
   viewExt: 'html',
@@ -20,42 +24,22 @@ render(server, {
   debug: true
 })
 
-server.use(static('public/js'))
-server.use(static('public/css'))
+app.use(static('public/js'))
+app.use(static('public/css'))
 
-mongoose.connect(config.mongodb)
-mongoose.connection.on('error', console.error.bind(console, `Please check your mongo connection: ${config.mongodb}`))
+router
+  .get('/', main.render)
+
+  app
+  .use(router.routes())
+  .use(router.allowedMethods())
 
 if (module.parent) {
-  module.exports = new Promise((resolve, reject) => {
-    mongoose.connection.once('open', () => {
-      router
-        .get('/', main.render)
-
-      server
-        .use(router.routes())
-        .use(router.allowedMethods())
-      resolve(server)
-    })
-
-  })
+  module.exports = app
 } else {
-  mongoose.connection.once('open', () => {
-    router
-      .get('/', main.render)
-
-    server
-      .use(router.routes())
-      .use(router.allowedMethods())
-
-
-    server.listen(config.port, function () {
-      console.info('process.env.NODE_ENV', process.env.NODE_ENV)
-      console.info('version', pckg.version)
-      console.info(JSON.stringify(config))
-    })
-
-    console.info.bind(console, `Is it connected to mongo at: ${config.mongodb}`)
+  app.listen(config.port, function () {
+    console.info('process.env.NODE_ENV', process.env.NODE_ENV)
+    console.info('version', pckg.version)
+    console.info(JSON.stringify(config))
   })
-
 }
