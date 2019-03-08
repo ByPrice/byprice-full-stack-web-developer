@@ -3,7 +3,7 @@ const assert = require('assert')
 
 describe('Mini scrapper', function () {
 
-  it('Should return formatted items from urls', async function () {
+  it.skip('Should return formatted items from urls', async function () {
     let urls = ['https://articulo.mercadolibre.com.mx/MLM-606237538-celular-apple-iphone-6-64gb-4g-lte-_JM', 'https://www.amazon.com.mx/Apple-Desbloqueado-Unlocked-Reacondicionado-Refurbished/dp/B076JKVKD4', 'https://byprice.com/producto/1d5f0b32-6eca-4cba-bdaa-8e319710d6dd/iphone-xs-64gb-plata']
     let response = await this.agent
       .post('/api/mini-scrapper')
@@ -23,7 +23,7 @@ describe('Mini scrapper', function () {
     }
   })
 
-  it('Should return 400 with `Some value in URL is not allowed` message', async function () {
+  it.skip('Should return 400 with `Some value in URL is not allowed` message', async function () {
     await this.agent
       .post('/api/mini-scrapper')
       .send({ urls: ['https://google.com', 'https://www.amazon.com.mx/Apple-Desbloqueado-Unlocked-Reacondicionado-Refurbished/dp/B076JKVKD4', 'https://byprice.com/producto/1d5f0b32-6eca-4cba-bdaa-8e319710d6dd/iphone-xs-64gb-plata'] })
@@ -33,7 +33,7 @@ describe('Mini scrapper', function () {
       })
   })
 
-  it('Should return formatted item from url from Amazon', async function () {
+  it.skip('Should return formatted item from url from Amazon', async function () {
     let url = 'https://www.amazon.com.mx/Apple-Desbloqueado-Unlocked-Reacondicionado-Refurbished/dp/B076JKVKD4'
     let response = await this.agent
       .post('/api/mini-scrapper')
@@ -45,7 +45,7 @@ describe('Mini scrapper', function () {
     assert.equal(item.url, url)
   })
 
-  it('Should return formatted item from url from MercadoLibre', async function () {
+  it.skip('Should return formatted item from url from MercadoLibre', async function () {
     let url = 'https://articulo.mercadolibre.com.mx/MLM-606237538-celular-apple-iphone-6-64gb-4g-lte-_JM'
     let response = await this.agent
       .post('/api/mini-scrapper')
@@ -57,7 +57,7 @@ describe('Mini scrapper', function () {
     assert.equal(item.url, url)
   })
 
-  it('Should return formatted item from url from ByPrice', async function () {
+  it.skip('Should return formatted item from url from ByPrice', async function () {
     let url = 'https://byprice.com/producto/1d5f0b32-6eca-4cba-bdaa-8e319710d6dd/iphone-xs-64gb-plata'
     let response = await this.agent
       .post('/api/mini-scrapper')
@@ -69,7 +69,7 @@ describe('Mini scrapper', function () {
     assert.equal(item.url, url)
   })
 
-  it('Should return 400 with `Some value in URL is not allowed` message', async function () {
+  it.skip('Should return 400 with `Some value in URL is not allowed` message', async function () {
     await this.agent
       .post('/api/mini-scrapper')
       .send({ urls: ['https://articulo.mercadolibre.com.mx/MLM-606237538-celular-apple-iphone-6-64gb-4g-lte-_JM', 'https://www.amazon.com.mx/Apple-Desbloqueado-Unlocked-Reacondicionado-Refurbished/dp/B076JKVKD4', 'https://byprice.com/producto/1d5f0b32-6eca-4cba-bdaa-8e319710d6dd/iphone-xs-64gb-plata', 'https://doto.com.mx/xiaomi-mi-8-lite-64gb-4gb-ram-negro-medianoche.html'] })
