@@ -1,8 +1,8 @@
 const request = require('supertest');
 const server = require('../server');
 
-describe('Shortest world', () => {
-  it('Should return `4` as a shortest world length in the list', async () => {
+describe('Shortest word', () => {
+  it('Should return `4` as a shortest word length in the list', async () => {
     await request(server.listen())
       .post('/api/shortestword')
       .send({ list: ['Sirio', 'Canopus', 'Aldebarán', 'Antares', 'Damn'] })
