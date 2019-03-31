@@ -4,7 +4,8 @@
   "description": "ByPrice test for full stack web developer",
   "main": "server.js",
   "scripts": {
-    "test": "mocha tests"
+    "test": "mocha tests",
+    "lint": "eslint --fix server.js src/** server/** tests/**"
   },
   "repository": {
     "type": "git",
