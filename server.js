@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 const Koa = require('koa');
-const router = require('koa-router')();
+const Router = require('koa-router')();
 const mongoose = require('mongoose');
 const render = require('koa-ejs');
 const koasStatic = require('koa-static');
@@ -13,18 +13,8 @@ const config = require('./config');
 /* Middlewares */
 const main = require('./server/main');
 
-const server = new Koa();
-
-render(server, {
-  root: path.join(__dirname, 'server/views'),
-  layout: 'template',
-  viewExt: 'html',
-  cache: false,
-  debug: true,
-});
-
-server.use(koasStatic('public/js'));
-server.use(koasStatic('public/css'));
+const app = new Koa();
+const router = new Router();
 
 mongoose.connect(config.mongodb);
 mongoose.connection.on(
@@ -34,31 +24,32 @@ mongoose.connection.on(
     `Please check your mongo connection: ${config.mongodb}`,
   ),
 );
+mongoose.connection.once(
+  'open',
+  console.info.bind(console, `Is it connected to mongo at: ${config.mongodb}`),
+);
+
+render(app, {
+  root: path.join(__dirname, 'server/views'),
+  layout: 'template',
+  viewExt: 'html',
+  cache: false,
+  debug: true,
+});
+
+app.use(koasStatic('public/js'));
+app.use(koasStatic('public/css'));
+
+router.get('/', main.render);
+
+app.use(router.routes()).use(router.allowedMethods());
 
 if (module.parent) {
-  module.exports = new Promise((resolve) => {
-    mongoose.connection.once('open', () => {
-      router.get('/', main.render);
-
-      server.use(router.routes()).use(router.allowedMethods());
-      resolve(server);
-    });
-  });
+  module.exports = app;
 } else {
-  mongoose.connection.once('open', () => {
-    router.get('/', main.render);
-
-    server.use(router.routes()).use(router.allowedMethods());
-
-    server.listen(config.port, () => {
-      console.info('process.env.NODE_ENV', process.env.NODE_ENV);
-      console.info('version', pckg.version);
-      console.info(JSON.stringify(config));
-    });
-
-    console.info.bind(
-      console,
-      `Is it connected to mongo at: ${config.mongodb}`,
-    );
+  app.listen(config.port, () => {
+    console.info('process.env.NODE_ENV', process.env.NODE_ENV);
+    console.info('version', pckg.version);
+    console.info(JSON.stringify(config));
   });
 }
