@@ -25,5 +25,8 @@
     "koa": "^2.7.0",
     "mongoose": "^5.4.17",
     "rc": "^1.2.8"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0"
   }
 }
