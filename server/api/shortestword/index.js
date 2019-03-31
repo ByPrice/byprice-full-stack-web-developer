@@ -1,10 +1,14 @@
+const Router = require('koa-router');
+
+const router = new Router();
+
 /**
  * [Middleware]
  *
  * @param {Object} ctx Koa context
  * @param {Function} next Koa next middleware
  */
-const shortestword = async (ctx, next) => {
+router.post('/', async (ctx, next) => {
   const { list } = ctx.request.body;
 
   if (list && Array.isArray(list) === false) {
@@ -33,6 +37,6 @@ const shortestword = async (ctx, next) => {
   }
 
   await next();
-};
+});
 
-module.exports = shortestword;
+module.exports = router;
