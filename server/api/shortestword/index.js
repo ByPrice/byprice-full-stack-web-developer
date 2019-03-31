@@ -12,4 +12,4 @@ const shortestword = async (ctx, next) => {
   await next();
 };
 
-module.shortestword = shortestword;
+module.exports = shortestword;
