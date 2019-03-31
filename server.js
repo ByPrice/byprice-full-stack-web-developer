@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-console */
 
 const Koa = require('koa');
@@ -39,6 +40,20 @@ render(app, {
 
 app.use(koasStatic('public/js'));
 app.use(koasStatic('public/css'));
+
+app.use(async (ctx, next) => {
+  try {
+    return await next();
+  } catch (err) {
+    if (ctx.header['content-type'] === 'application/json') {
+      ctx.type = 'application/json';
+      ctx.status = err.status;
+      ctx.body = {
+        message: err.message,
+      };
+    }
+  }
+});
 
 router.get('/', main.render);
 
