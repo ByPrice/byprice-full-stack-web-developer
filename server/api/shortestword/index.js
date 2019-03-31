@@ -12,12 +12,12 @@ const shortestword = async (ctx, next) => {
     ctx.response.body = {
       message: 'List should be an Array',
     };
-  } else if (list && Array.isArray(list) && list.length >= 2) {
+  } else if (list && Array.isArray(list) && list.length < 2) {
     ctx.response.status = 400;
     ctx.response.body = {
       message: 'List min length allowed 2',
     };
-  } else if (list && Array.isArray(list) && list.length <= 8) {
+  } else if (list && Array.isArray(list) && list.length > 8) {
     ctx.response.status = 400;
     ctx.response.body = {
       message: 'List max length allowed 8',

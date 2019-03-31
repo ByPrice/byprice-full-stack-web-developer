@@ -5,6 +5,7 @@
  * @param {Function} next Koa next middleware
  */
 async function render(ctx, next) {
+  ctx.response = 200;
   ctx.state = {
     user: {
       name: 'Hi!',
