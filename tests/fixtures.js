@@ -1,5 +1,5 @@
-describe("Home", () => {
-  it("Should return 200", async () => {
-    await this.agent.get("/").expect(200);
+describe('Home', () => {
+  it('Should return 200', async () => {
+    await this.agent.get('/').expect(200);
   });
 });
