@@ -15,6 +15,7 @@ const pckg = require('./package.json');
 /* Middlewares */
 const main = require('./server/main');
 const shortestword = require('./server/api/shortestword');
+const user = require('./server/api/user');
 
 const app = new Koa();
 const router = new Router();
@@ -58,8 +59,9 @@ app.use(async (ctx, next) => {
   }
 });
 
+router.use('/api/user', user.routes());
+router.use('/api/shortestword', shortestword.routes());
 router.get('/', main.render);
-router.post('/api/shortestword', shortestword);
 
 app.use(router.routes()).use(router.allowedMethods());
 
