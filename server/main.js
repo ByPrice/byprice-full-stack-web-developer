@@ -7,10 +7,10 @@
 async function render(ctx, next) {
   ctx.state = {
     user: {
-      name: "Hi!"
-    }
+      name: 'Hi!',
+    },
   };
-  await ctx.render("index");
+  await ctx.render('index');
   await next();
 }
 
