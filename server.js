@@ -9,8 +9,8 @@ const koasStatic = require('koa-static');
 const bodyParser = require('koa-bodyparser');
 const path = require('path');
 
-const pckg = require('./package.json');
 const config = require('./config');
+const pckg = require('./package.json');
 
 /* Middlewares */
 const main = require('./server/main');
