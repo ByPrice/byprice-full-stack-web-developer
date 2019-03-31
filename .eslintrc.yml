@@ -16,4 +16,10 @@ parserOptions:
   sourceType: module
 plugins:
   - react
-rules: {}
+rules:
+  prettier/prettier:
+    - error
+    - singleQuote: true
+      jsxSingleQuote: true
+      trailingComma: all
+      arrowParens: always
