@@ -1,4 +1,3 @@
-
 /**
  * [Middleware]
  *
@@ -8,11 +7,11 @@
 async function render(ctx, next) {
   ctx.state = {
     user: {
-      name: 'Hi!'
+      name: "Hi!"
     }
-  }
-  await ctx.render('index');
-  await next()
+  };
+  await ctx.render("index");
+  await next();
 }
 
-exports.render = render
+exports.render = render;

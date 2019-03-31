@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha tests",
-    "lint": "eslint --fix server.js src/** server/** tests/**"
+    "lint": "eslint **/*.js --ignore-pattern node_modules/"
   },
   "repository": {
     "type": "git",
