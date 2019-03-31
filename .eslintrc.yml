@@ -19,7 +19,5 @@ plugins:
 rules:
   prettier/prettier:
     - error
-    - singleQuote: true
-      jsxSingleQuote: true
-      trailingComma: all
-      arrowParens: always
+    -
+    - usePrettierrc: true
