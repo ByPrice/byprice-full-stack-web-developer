@@ -4,7 +4,7 @@
   "description": "ByPrice test for full stack web developer",
   "main": "server.js",
   "scripts": {
-    "test": "mocha tests",
+    "test": "jest --forceExit --detectOpenHandles",
     "lint": "eslint '**/*.js'",
     "lint:fix": "eslint '**/*.js' --fix"
   },
@@ -49,6 +49,7 @@
     "eslint-plugin-react": "^7.12.4",
     "html-webpack-plugin": "^3.2.0",
     "http-server": "^0.11.1",
+    "jest": "^24.5.0",
     "prettier": "^1.16.4",
     "supertest": "^4.0.2",
     "webpack": "^4.29.6",
