@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest --forceExit --detectOpenHandles",
     "lint": "eslint '**/*.js'",
-    "lint:fix": "eslint '**/*.js' --fix"
+    "lint:fix": "eslint '**/*.js' --fix",
+    "build": "npx webpack"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/ByPrice/byprice-full-stack-web-developer#readme",
   "dependencies": {
+    "@material-ui/core": "^3.9.2",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
     "koa-ejs": "^4.2.0",
@@ -35,6 +37,8 @@
     "react-dom": "^16.8.6"
   },
   "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
     "babel": "^6.23.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.5",
@@ -52,6 +56,7 @@
     "jest": "^24.5.0",
     "prettier": "^1.16.4",
     "supertest": "^4.0.2",
+    "mocha": "^6.0.2",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.2.1"

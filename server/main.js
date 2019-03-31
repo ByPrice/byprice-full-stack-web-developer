@@ -10,7 +10,7 @@ async function render(ctx, next) {
       name: 'Hi!',
     },
   };
-  await ctx.render('index');
+  await ctx.render('home');
   await next();
 }
 
