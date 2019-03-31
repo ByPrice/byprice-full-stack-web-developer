@@ -13,6 +13,7 @@ const config = require('./config');
 
 /* Middlewares */
 const main = require('./server/main');
+const shortestword = require('./server/api/shortestword');
 
 const app = new Koa();
 const router = new Router();
@@ -56,6 +57,7 @@ app.use(async (ctx, next) => {
 });
 
 router.get('/', main.render);
+router.use('/api/shortestword/', shortestword);
 
 app.use(router.routes()).use(router.allowedMethods());
 
