@@ -25,6 +25,7 @@
   "homepage": "https://github.com/ByPrice/byprice-full-stack-web-developer#readme",
   "dependencies": {
     "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
     "koa-ejs": "^4.2.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",

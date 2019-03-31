@@ -6,6 +6,7 @@ const Router = require('koa-router');
 const mongoose = require('mongoose');
 const render = require('koa-ejs');
 const koasStatic = require('koa-static');
+const bodyParser = require('koa-bodyparser');
 const path = require('path');
 
 const pckg = require('./package.json');
@@ -13,7 +14,7 @@ const config = require('./config');
 
 /* Middlewares */
 const main = require('./server/main');
-const shortestword = require('./server/api/shortestword');
+const shortestword = require('./server/api/shortestword/routes');
 
 const app = new Koa();
 const router = new Router();
@@ -39,6 +40,7 @@ render(app, {
   debug: true,
 });
 
+app.use(bodyParser());
 app.use(koasStatic('public/js'));
 app.use(koasStatic('public/css'));
 
