@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 const Koa = require('koa');
-const Router = require('koa-router')();
+const Router = require('koa-router');
 const mongoose = require('mongoose');
 const render = require('koa-ejs');
 const koasStatic = require('koa-static');
