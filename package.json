@@ -8,7 +8,7 @@
     "lint": "eslint '**/*.js'",
     "lint:fix": "eslint '**/*.js' --fix",
     "build": "webpack --mode production",
-    "start:dev": "webpack-dev-server"
+    "start:dev": "webpack-dev-server --config ./webpack.config.js --mode development"
   },
   "repository": {
     "type": "git",
