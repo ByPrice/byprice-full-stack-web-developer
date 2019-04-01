@@ -1,12 +1,8 @@
-/*
- * Your react code here
-  import React from 'react'
-  import { render } from 'react-dom'
-  import Users from './components/user'
+/* eslint-disable react/jsx-filename-extension */
+import React from 'react';
+import { render } from 'react-dom';
 
-  const rootEl = document.getElementById('UserTodo')
+// Container
+import App from './App';
 
-  render(<Users />, rootEl)
-
-  if (module.hot) module.hot.accept()
-*/
+render(<App />, document.getElementById('root'));
