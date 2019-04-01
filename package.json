@@ -7,7 +7,7 @@
     "test": "jest --forceExit --detectOpenHandles",
     "lint": "eslint '**/*.js'",
     "lint:fix": "eslint '**/*.js' --fix",
-    "build": "npx webpack"
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
