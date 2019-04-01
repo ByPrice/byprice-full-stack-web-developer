@@ -45,17 +45,16 @@ app.use(bodyParser());
 app.use(koasStatic('public/js'));
 app.use(koasStatic('public/css'));
 
+// Error Handling
 app.use(async (ctx, next) => {
   try {
     return await next();
   } catch (err) {
-    if (ctx.header['content-type'] === 'application/json') {
-      ctx.type = 'application/json';
-      ctx.status = err.status;
-      ctx.body = {
-        message: err.message,
-      };
-    }
+    ctx.type = 'application/json';
+    ctx.status = err.status || 500;
+    ctx.body = {
+      message: err.message,
+    };
   }
 });
 
