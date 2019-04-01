@@ -80,31 +80,18 @@ describe('GET /api/user/', () => {
 });
 
 describe('PUT /api/user/:userId', () => {
-  it("Should get 400 with message: `userId is required` when doesn't receives userId", async () => {
-    await request(server.listen())
-      .put('/api/user/')
-      .send({
-        firstName: 'Kierna',
-        lastName: 'Shipka',
-        email: 'kierna_shipka@gmail.com',
-        status: 'pending',
-      })
-      .set('Accept', 'application/json')
-      .expect(400, {
-        message: 'userId is required',
-      });
-  });
-
   it('Should get 200 with the updated user information when receives userId and firstName || lastName || email || status', async () => {
-    const userId = await request(server.listen())
+    const { body } = await request(server.listen())
       .post('/api/user/')
       .send({
         firstName: 'Kierna',
         lastName: 'Shipka',
         email: 'kierna_shipka@gmail.com',
-        status: 'active',
       })
-      .set('Accept', 'application/json').userInformation.id;
+      .set('Accept', 'application/json');
+
+    // eslint-disable-next-line no-underscore-dangle
+    const userId = body.userInformation._id;
 
     await request(server.listen())
       .put(`/api/user/${userId}`)
@@ -119,19 +106,22 @@ describe('PUT /api/user/:userId', () => {
   });
 
   it('should get 400 with message: `firstName must be of type string` when receives firstName with different type of string', async () => {
-    const userId = await request(server.listen())
+    const { body } = await request(server.listen())
       .post('/api/user/')
       .send({
         firstName: 'Kierna',
         lastName: 'Shipka',
         email: 'kierna_shipka@gmail.com',
       })
-      .set('Accept', 'application/json').userInformation.id;
+      .set('Accept', 'application/json');
+
+    // eslint-disable-next-line no-underscore-dangle
+    const userId = body.userInformation._id;
 
     await request(server.listen())
       .put(`/api/user/${userId}`)
       .send({
-        firstName: null,
+        firstName: 543534,
         lastName: 'Shipka',
         email: 'kierna_shipka@gmail.com',
         status: 'active',
@@ -143,21 +133,24 @@ describe('PUT /api/user/:userId', () => {
   });
 
   it('should get 400 with message: `email must be of type string` when receives email with different type of string', async () => {
-    const userId = await request(server.listen())
+    const { body } = await request(server.listen())
       .post('/api/user/')
       .send({
         firstName: 'Kierna',
         lastName: 'Shipka',
         email: 'kierna_shipka@gmail.com',
       })
-      .set('Accept', 'application/json').userInformation.id;
+      .set('Accept', 'application/json');
+
+    // eslint-disable-next-line no-underscore-dangle
+    const userId = body.userInformation._id;
 
     await request(server.listen())
       .put(`/api/user/${userId}`)
       .send({
         firstName: 'Kierna',
         lastName: 'Shipka',
-        email: null,
+        email: 543564353,
         status: 'active',
       })
       .set('Accept', 'application/json')
@@ -167,20 +160,23 @@ describe('PUT /api/user/:userId', () => {
   });
 
   it('should get 400 with message: `lastName must be of type string` when receives lastName with different type of string', async () => {
-    const userId = await request(server.listen())
+    const { body } = await request(server.listen())
       .post('/api/user/')
       .send({
         firstName: 'Kierna',
         lastName: 'Shipka',
         email: 'kierna_shipka@gmail.com',
       })
-      .set('Accept', 'application/json').userInformation.id;
+      .set('Accept', 'application/json');
+
+    // eslint-disable-next-line no-underscore-dangle
+    const userId = body.userInformation._id;
 
     await request(server.listen())
       .put(`/api/user/${userId}`)
       .send({
         firstName: 'Kierna',
-        lastName: null,
+        lastName: 654654654,
         email: 'kierna_shipka@gmail.com',
         status: 'active',
       })
@@ -191,14 +187,17 @@ describe('PUT /api/user/:userId', () => {
   });
 
   it('should get 400 with message: `status must be of type string` when receives status with different type of string', async () => {
-    const userId = await request(server.listen())
+    const { body } = await request(server.listen())
       .post('/api/user/')
       .send({
         firstName: 'Kierna',
         lastName: 'Shipka',
         email: 'kierna_shipka@gmail.com',
       })
-      .set('Accept', 'application/json').userInformation.id;
+      .set('Accept', 'application/json');
+
+    // eslint-disable-next-line no-underscore-dangle
+    const userId = body.userInformation._id;
 
     await request(server.listen())
       .put(`/api/user/${userId}`)
@@ -206,7 +205,7 @@ describe('PUT /api/user/:userId', () => {
         firstName: 'Kierna',
         lastName: 'Shipka',
         email: 'kierna_shipka@gmail.com',
-        status: null,
+        status: 534534,
       })
       .set('Accept', 'application/json')
       .expect(400, {

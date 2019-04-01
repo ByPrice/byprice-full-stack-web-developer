@@ -45,10 +45,11 @@ router.post('/', async (ctx, next) => {
       const user = new User({ firstName, lastName, email });
 
       try {
-        await user.save();
+        const addedUser = await user.save();
 
         ctx.response.status = 200;
         ctx.response.body = {
+          userInformation: addedUser,
           message: 'User created',
         };
       } catch (error) {
@@ -67,10 +68,11 @@ router.post('/', async (ctx, next) => {
     const user = new User({ firstName, email });
 
     try {
-      await user.save();
+      const addedUser = await user.save();
 
       ctx.response.status = 200;
       ctx.response.body = {
+        userInformation: addedUser,
         message: 'User created',
       };
     } catch (error) {
@@ -114,38 +116,13 @@ router.get('/', async (ctx, next) => {
  * @param {Function} next Koa next middleware
  */
 router.put('/:userId', async (ctx, next) => {
-  const { userId } = ctx.request.query;
+  const { userId } = ctx.params;
   const { firstName, lastName, email, status } = ctx.request.body;
 
-  if (!userId) {
-    ctx.response.status = 400;
-    ctx.response.body = { message: 'userId is required' };
+  // Verify if user exits
+  await User.findOne({ _id: userId });
 
-    return;
-  }
-
-  if (!firstName && !email) {
-    ctx.response.status = 400;
-    ctx.response.body = { message: 'firstName and email are required' };
-
-    return;
-  }
-
-  if (!firstName) {
-    ctx.response.status = 400;
-    ctx.response.body = { message: 'firstName is required' };
-
-    return;
-  }
-
-  if (!email) {
-    ctx.response.status = 400;
-    ctx.response.body = { message: 'email is required' };
-
-    return;
-  }
-
-  if (typeof firstName !== 'string' && email) {
+  if (firstName && typeof firstName !== 'string') {
     ctx.response.status = 400;
     ctx.response.body = {
       message: 'firstName must be of type string',
@@ -154,7 +131,7 @@ router.put('/:userId', async (ctx, next) => {
     return;
   }
 
-  if (firstName && typeof email !== 'string') {
+  if (email && typeof email !== 'string') {
     ctx.response.status = 400;
     ctx.response.body = {
       message: 'email must be of type string',
@@ -180,30 +157,25 @@ router.put('/:userId', async (ctx, next) => {
 
     return;
   }
-
-  if (
-    typeof userId === 'string' &&
-    typeof email === 'string' &&
-    typeof firstName === 'string'
-  ) {
-    try {
-      await User.updateOne({
-        userId,
+  try {
+    const updatedUser = await User.where({ userId })
+      .update({
         email,
         firstName,
         lastName: lastName || null,
         status: status || null,
-      });
-      ctx.response.status = 200;
-      ctx.response.body = {
-        message: `User updated with userId: ${userId}`,
-      };
-    } catch (error) {
-      ctx.response.status = 500;
-      ctx.response.body = {
-        error: error.message,
-      };
-    }
+      })
+      .exec();
+    ctx.response.status = 200;
+    ctx.response.body = {
+      userInformation: updatedUser,
+      message: `User updated with userId: ${userId}`,
+    };
+  } catch (error) {
+    ctx.response.status = 500;
+    ctx.response.body = {
+      error: error.message,
+    };
   }
 
   await next();
