@@ -102,6 +102,7 @@ describe('PUT /api/user/:userId', () => {
         firstName: 'Kierna',
         lastName: 'Shipka',
         email: 'kierna_shipka@gmail.com',
+        status: 'active',
       })
       .set('Accept', 'application/json').userInformation.id;
 
