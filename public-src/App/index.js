@@ -13,6 +13,7 @@ import TurnedIn from '@material-ui/icons/TurnedIn';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
+import shortid from 'shortid';
 
 class App extends PureComponent {
   constructor(props) {
@@ -25,6 +26,7 @@ class App extends PureComponent {
 
     this.handleChangeTaskName = this.handleChangeTaskName.bind(this);
     this.handleClickAddNewTodo = this.handleClickAddNewTodo.bind(this);
+    this.handleClickRemoveTodo = this.handleClickRemoveTodo.bind(this);
   }
 
   handleChangeTaskName(event) {
@@ -32,12 +34,29 @@ class App extends PureComponent {
   }
 
   handleClickAddNewTodo() {
-    this.setState((prevState) => {
-      const prevTodos = prevState.todos;
-      const todo = prevState.taskName;
-      const newTodos = [...prevTodos, todo];
+    const { taskName } = this.state;
 
-      return { todos: newTodos, taskName: '' };
+    if (taskName.trim()) {
+      this.setState((prevState) => {
+        const prevTodos = prevState.todos;
+        const todoName = prevState.taskName;
+        const newTodos = [
+          ...prevTodos,
+          { name: todoName, id: shortid.generate() },
+        ];
+
+        return { todos: newTodos, taskName: '' };
+      });
+    }
+  }
+
+  handleClickRemoveTodo(todoId) {
+    this.setState((prevState) => {
+      const todosWithoutTodo = prevState.todos.filter(
+        (todo) => todo.id !== todoId,
+      );
+
+      return { todos: todosWithoutTodo };
     });
   }
 
@@ -46,12 +65,25 @@ class App extends PureComponent {
 
     return (
       <Fragment>
-        <Grid>
-          <Grid>
+        <Grid
+          container
+          direction='column'
+          justify='center'
+          alignItems='center'
+          spacing={40}
+        >
+          <Grid item>
             <Typography variant='h4'>Add New Todo</Typography>
           </Grid>
 
-          <Grid>
+          <Grid
+            item
+            container
+            direction='row'
+            justify='center'
+            alignItems='center'
+            spacing={40}
+          >
             <Grid>
               <TextField
                 id='outlined-name'
@@ -63,7 +95,7 @@ class App extends PureComponent {
               />
             </Grid>
 
-            <Grid>
+            <Grid item>
               <Button
                 variant='contained'
                 color='primary'
@@ -74,17 +106,22 @@ class App extends PureComponent {
             </Grid>
           </Grid>
 
-          <Grid>
+          <Grid item>
             <List dense={false}>
-              {todos.map((todo, key) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <ListItem key={key}>
+              {todos.length < 1 && <Typography variant='h6'>Empty</Typography>}
+              {todos.map((todo) => (
+                <ListItem key={todo.id}>
                   <ListItemIcon>
                     <TurnedIn />
                   </ListItemIcon>
-                  <ListItemText primary='Single-line item'>{todo}</ListItemText>
+                  <ListItemText primary={todo.name} />
                   <ListItemSecondaryAction>
-                    <IconButton aria-label='Delete'>
+                    <IconButton
+                      aria-label='Delete'
+                      onClick={() => {
+                        this.handleClickRemoveTodo(todo.id);
+                      }}
+                    >
                       <DeleteIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
